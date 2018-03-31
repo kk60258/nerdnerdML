@@ -1,0 +1,2 @@
+best_train_accuracy 1.0, best_train_step 40190
+best_test_accuracy 0.9112580128205128, best_test_step 185000

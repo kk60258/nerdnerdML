@@ -1,0 +1,2 @@
+model_checkpoint_path: "/home/nineg/PycharmProjects/nerdnerdML/MNIST/2018_Mar_31_13_37_29/200000-step_0.01-learningrate_64-batchsize/parameters-185000"
+all_model_checkpoint_paths: "/home/nineg/PycharmProjects/nerdnerdML/MNIST/2018_Mar_31_13_37_29/200000-step_0.01-learningrate_64-batchsize/parameters-185000"

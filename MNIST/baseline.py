@@ -9,7 +9,7 @@ logging.basicConfig(level = logging.DEBUG)
 FLAGS = tf.app.flags.FLAGS
 
 tf.app.flags.DEFINE_string("mode", "train", "train, eval, or predict")
-tf.app.flags.DEFINE_integer("steps", 20000, "number of steps")
+tf.app.flags.DEFINE_integer("steps", 200000, "number of steps")
 tf.app.flags.DEFINE_integer("steps_per_test", 1000, "number of steps per test")
 tf.app.flags.DEFINE_integer("batch_size", 64, "number of data per step")
 tf.app.flags.DEFINE_float("learning_rate", 0.01, "learning rate")
