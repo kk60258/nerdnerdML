@@ -17,7 +17,7 @@ logging.basicConfig(level = logging.DEBUG)
 FLAGS = tf.app.flags.FLAGS
 # tf.app.flags.DEFINE_string("param_name", "default_val", "description")
 tf.app.flags.DEFINE_string("mode", "train", "train, eval, or predict")
-tf.app.flags.DEFINE_integer("steps", 2000, "number of steps")
+tf.app.flags.DEFINE_integer("steps", 1, "number of steps")
 tf.app.flags.DEFINE_integer("batch_size", 64, "number of data per step")
 tf.app.flags.DEFINE_float("learning_rate", 0.01, "learning rate")
 
@@ -125,7 +125,7 @@ def main(unused_argv):
         logging.debug('12312312312312312')
         for step in range(steps):
             train_data, train_label = mnist_images.train.next_batch(batch_size)
-            losses, train_acc, train_summary = session.run([train_op, eval_op["accuracy"], merged], feed_dict={features: train_data, labels: train_label})
+            _, train_acc, train_summary = session.run([train_op, eval_op["accuracy"], merged], feed_dict={features: train_data, labels: train_label})
             summary_writer.add_summary(train_summary, step)
             # summary_writer.add_summary(losses, step)
 
@@ -134,7 +134,6 @@ def main(unused_argv):
         logging.debug('eval op %s', evals)
         # summary_writer.add_summary(summary_result, step)
             # save_path = tf.train.Saver().save(session, save_path=model_path, global_step=step)
-
 
 
 
