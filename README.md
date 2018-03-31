@@ -33,4 +33,9 @@ Machine learning練習用
     3. 加summary, 至少要有accuracy per step
   
        https://www.tensorflow.org/programmers_guide/saved_model
+       
+    more info:
+    
+    https://www.tensorflow.org/versions/r1.2/get_started/mnist/mechanics
+    
 
