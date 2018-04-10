@@ -117,9 +117,9 @@ def cnn_model_fn(features, labels, mode):
 
 def main(unused_argv):
   # Load training and eval data
-  # mnist = tf.contrib.learn.datasets.load_dataset("mnist")
-  from tensorflow.examples.tutorials.mnist import input_data
-  mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
+  mnist = tf.contrib.learn.datasets.load_dataset("mnist")
+  # from tensorflow.examples.tutorials.mnist import input_data
+  # mnist = input_data.read_data_sets("MNIST_data/", one_hot=False)
   train_data = mnist.train.images  # Returns np.array
   train_labels = np.asarray(mnist.train.labels, dtype=np.int32)
   eval_data = mnist.test.images  # Returns np.array
@@ -144,7 +144,7 @@ def main(unused_argv):
       shuffle=True)
   mnist_classifier.train(
       input_fn=train_input_fn,
-      steps=20000,
+      steps=10,
       hooks=[logging_hook])
 
   # Evaluate the model and print results
