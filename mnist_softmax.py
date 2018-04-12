@@ -74,25 +74,36 @@ def main(_):
   train_step = tf.train.GradientDescentOptimizer(0.05).minimize(cross_entropy)
 
   sess = tf.InteractiveSession()
-  tf.global_variables_initializer().run()
+
+  
+  
+  #accuracy function
+  with tf.name_scope('accuracy'):
+    with tf.name_scope('correct_prediction'):
+      correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
+    with tf.name_scope('accuracy'):
+      accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+  tf.summary.scalar('accuracy', accuracy)
+
+  # Merge all the summaries and write them out to /tmp/mnist_logs (by default)
+  merged = tf.summary.merge_all()
   
   #write log file for tensorBoard
   writer = tf.summary.FileWriter("/tmp/shun_graph/mnist_softmax/", sess.graph)
   
-  #accuracy function
-  correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
-  accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
-  
+  tf.global_variables_initializer().run()
   
   accuracy_list = ["summary:"]
   # Train
   for i in range(1000):
     batch_xs, batch_ys = mnist.train.next_batch(100)
-    summary = sess.run(train_step, feed_dict={x: batch_xs, y_: batch_ys})
-    writer.add_summary(summary,i)
+    sess.run(train_step, feed_dict={x: batch_xs, y_: batch_ys})
+    
     if (i%100) == 1:
-        accuracy_list.append("[train] accuracy after %d step: %f" % (i,sess.run(accuracy, feed_dict={x: mnist.test.images,
-                                      y_: mnist.test.labels})))
+        summary, acc = sess.run([merged, accuracy], feed_dict={x: mnist.test.images,
+                                      y_: mnist.test.labels})
+        writer.add_summary(summary,i)
+        accuracy_list.append("[train] accuracy after %d step: %f" % (i,acc))
 
   writer.close()
 
