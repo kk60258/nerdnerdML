@@ -45,7 +45,7 @@ def main(_):
   #y = tf.nn.softmax(tf.matmul(x, W) + b)
 
   # Define loss and optimizer
-  y_ = tf.placeholder(tf.float32, [None, 10])
+  #y_ = tf.placeholder(tf.float32, [None, 10])
 
 
   sess = tf.InteractiveSession()
@@ -54,14 +54,24 @@ def main(_):
   tf.train.Saver().restore(sess, "/tmp/shun_model.ckpt")
   
   # print all tensors in checkpoint file
-  chkp.print_tensors_in_checkpoint_file("/tmp/shun_model.ckpt", tensor_name='', all_tensors=True)
+  #chkp.print_tensors_in_checkpoint_file("/tmp/shun_model.ckpt", tensor_name='', all_tensors=True)
   
 
-  # Test trained model
-  correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
-  accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
-  print(sess.run(accuracy, feed_dict={x: mnist.test.images,
-                                      y_: mnist.test.labels}))
+
+  #do predict
+  ##ref: https://stackoverflow.com/questions/33711556/making-predictions-with-a-tensorflow-model
+  
+  ## pick random img in mnist.test
+  from matplotlib import pyplot as plt
+  from random import randint
+  num = randint(0, mnist.test.images.shape[0])
+  img = mnist.test.images[num]
+
+
+  classification = sess.run(tf.argmax(y, 1), feed_dict={x: [img]})
+  plt.imshow(img.reshape(28, 28), cmap=plt.cm.binary)
+  plt.show()
+  print('predicted', classification[0])
 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser()

@@ -77,12 +77,22 @@ def main(_):
   tf.global_variables_initializer().run()
   
   #write log file for tensorBoard
-  writer = tf.summary.FileWriter("/tmp/shun_graph", graph=tf.get_default_graph())
+  writer = tf.summary.FileWriter("/tmp/shun_graph/mnist_softmax/", sess.graph)
   
+  #accuracy function
+  correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
+  accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+  
+  
+  accuracy_list = ["summary:"]
   # Train
-  for _ in range(1000):
+  for i in range(1000):
     batch_xs, batch_ys = mnist.train.next_batch(100)
-    sess.run(train_step, feed_dict={x: batch_xs, y_: batch_ys})
+    summary = sess.run(train_step, feed_dict={x: batch_xs, y_: batch_ys})
+    writer.add_summary(summary,i)
+    if (i%100) == 1:
+        accuracy_list.append("[train] accuracy after %d step: %f" % (i,sess.run(accuracy, feed_dict={x: mnist.test.images,
+                                      y_: mnist.test.labels})))
 
   writer.close()
 
@@ -91,14 +101,14 @@ def main(_):
   print("Model saved in path: %s" % save_path)
   
   # print all tensors in checkpoint file
-  chkp.print_tensors_in_checkpoint_file("/tmp/shun_model.ckpt", tensor_name='', all_tensors=True)
+  #chkp.print_tensors_in_checkpoint_file("/tmp/shun_model.ckpt", tensor_name='', all_tensors=True)
   
-
-  # Test trained model
-  correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
-  accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
-  print(sess.run(accuracy, feed_dict={x: mnist.test.images,
+  
+  #summary
+  accuracy_list.append("[final] accuracy after 1000 step: %f" % sess.run(accuracy, feed_dict={x: mnist.test.images,
                                       y_: mnist.test.labels}))
+  for list in accuracy_list:
+      print(list)
 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser()
