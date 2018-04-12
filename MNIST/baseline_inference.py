@@ -39,8 +39,9 @@ def get_image():
         # image_data = tf.image.resize_images(image, [28, 28])
         # image_data = tf.image.convert_image_dtype(image_data, dtype=tf.uint8)
         image_data = tf.reshape(image, [784])
-        image_data = tf.cast(image_data, dtype=tf.uint8)
-        # image_data = tf.cast(image, tf.float32)
+        # image_data = tf.cast(image_data, dtype=tf.uint8)
+        image_data = tf.cast(image_data, dtype=tf.float32)
+        image_data = tf.divide(image_data, 127.5)
         return image_data.eval()
 
     name = []
