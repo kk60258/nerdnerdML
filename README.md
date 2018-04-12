@@ -39,3 +39,12 @@ Machine learning練習用
     https://www.tensorflow.org/versions/r1.2/get_started/mnist/mechanics
     
 
+- 4/12 CIFAR image classification
+
+     1. CIFAR implemetation on google colaboratory
+     
+        https://www.tensorflow.org/tutorials/deep_cnn
+     
+     2. upload jupyter notebook
+    
+
