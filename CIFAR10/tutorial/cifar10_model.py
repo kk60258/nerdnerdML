@@ -2,7 +2,7 @@ import re
 
 import tensorflow as tf
 
-from CIFAR10.tutorial.cifar10_const import *
+from cifar10_const import *
 
 
 def inference(images):

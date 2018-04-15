@@ -2,7 +2,7 @@ import os
 
 import tensorflow as tf
 
-from CIFAR10.tutorial.cifar10_const import *
+from cifar10_const import *
 
 
 def distorted_inputs(data_dir, batch_size):

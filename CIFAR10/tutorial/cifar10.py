@@ -7,7 +7,7 @@ import cifar10_data
 import cifar10_model
 import tensorflow as tf
 
-from CIFAR10.tutorial.cifar10_const import *
+from cifar10_const import *
 
 logging.basicConfig(level=logging.DEBUG)
 
