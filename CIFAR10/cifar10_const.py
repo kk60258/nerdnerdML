@@ -1,4 +1,18 @@
 
+
+__all_ = ['IMAGE_SIZE',
+          'NUM_CLASSES',
+          'NUM_EXAMPLES_PER_EPOCH_FOR_TRAIN',
+          'NUM_EXAMPLES_PER_EPOCH_FOR_EVAL',
+          'DATA_URL',
+          'MOVING_AVERAGE_DECAY',
+          'NUM_EPOCHS_PER_DECAY',
+          'LEARNING_RATE_DECAY_FACTOR',
+          'INITIAL_LEARNING_RATE',
+          'batch_size',
+          'max_steps',
+          'log_device_placement',
+          'log_frequency']
 # Global constants describing the CIFAR-10 data set.
 # Process images of this size. Note that this differs from the original CIFAR
 # image size of 32 x 32. If one alters this number, then the entire model
@@ -19,6 +33,6 @@ LEARNING_RATE_DECAY_FACTOR = 0.1  # Learning rate decay factor.
 INITIAL_LEARNING_RATE = 0.1       # Initial learning rate.
 
 batch_size = 128
-max_steps=1000000
-log_device_placement = False
+max_steps = 100
 log_frequency = 10
+log_device_placement = False
