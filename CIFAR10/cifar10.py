@@ -46,7 +46,7 @@ def train():
         # GPU and resulting in a slow down.
         with tf.device('/cpu:0'):
             dataset = cifar10_data.distorted_inputs(data_dir=FLAGS.data_dir)
-            dataset = dataset.batch(batch_size)
+            dataset = dataset.batch(batch_size).repeat()
             iterator = dataset.make_one_shot_iterator()
             next_batch = iterator.get_next()
 

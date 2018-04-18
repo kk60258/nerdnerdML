@@ -18,24 +18,24 @@ def inference(images):
     # layer1
     with tf.variable_scope('layer1') as scope:
         conv1 = tf.layers.conv2d(inputs=images, filters=64, kernel_size=[5, 5], strides=(1, 1), padding='same', activation=tf.nn.relu, kernel_regularizer=tf.contrib.layers.l2_regularizer(0.1), name='conv')
-        batch1 = tf.layers.batch_normalization(inputs=conv1, name='batch')
-        pool1 = tf.layers.max_pooling2d(batch1, pool_size=[3, 3], strides=[2,2], padding='same', name='pool')
-        layer1 = pool1
+        pool1 = tf.layers.max_pooling2d(conv1, pool_size=[3, 3], strides=[2,2], padding='same', name='pool')
+        batch1 = tf.layers.batch_normalization(inputs=pool1, name='batch')
+        layer1 = batch1
 
 
     # layer2
     with tf.variable_scope('layer2') as scope:
         conv2 = tf.layers.conv2d(inputs=layer1, filters=80, kernel_size=[5, 5], strides=(1, 1), padding='same', activation=tf.nn.relu, kernel_regularizer=tf.contrib.layers.l2_regularizer(0.1), name='conv')
-        batch2 = tf.layers.batch_normalization(inputs=conv2, name='batch')
-        pool2 = tf.layers.max_pooling2d(inputs=batch2, pool_size=[3, 3], strides=[2,2], padding='same', name='pool')
-        layer2 = pool2
+        pool2 = tf.layers.max_pooling2d(inputs=conv2, pool_size=[3, 3], strides=[2,2], padding='same', name='pool')
+        batch2 = tf.layers.batch_normalization(inputs=pool2, name='batch')
+        layer2 = batch2
 
     # layer3
     with tf.variable_scope('layer3') as scope:
         conv3 = tf.layers.conv2d(inputs=layer2, filters=128, kernel_size=[3, 3], strides=(1, 1), padding='same', activation=tf.nn.relu, kernel_regularizer=tf.contrib.layers.l2_regularizer(0.1), name='conv')
-        batch3 = tf.layers.batch_normalization(inputs=conv3, name='batch')
-        pool3 = tf.layers.max_pooling2d(inputs=batch3, pool_size=[2, 2], strides=[2,2], padding='same', name='pool')
-        layer3 = pool3
+        pool3 = tf.layers.max_pooling2d(inputs=conv3, pool_size=[2, 2], strides=[2,2], padding='same', name='pool')
+        batch3 = tf.layers.batch_normalization(inputs=pool3, name='batch')
+        layer3 = batch3
 
     # layer4
     with tf.variable_scope('layer4') as scope:
@@ -44,7 +44,6 @@ def inference(images):
         dense2 = tf.layers.dense(inputs=dense1, units=10, activation=tf.nn.relu, kernel_regularizer=tf.contrib.layers.l2_regularizer(0.1), name='dense2')
         layer4 = dense2
     # We don't apply softmax here because
-    # tf.nn.sparse_softmax_cross_entropy_with_logits accepts the unscaled logits
     # and performs the softmax internally for efficiency.
 
 
