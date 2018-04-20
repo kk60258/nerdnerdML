@@ -10,9 +10,6 @@ from cifar10_const import *
 
 logging.basicConfig(level=logging.DEBUG)
 
-max_steps = max_steps
-log_frequency = log_frequency
-
 
 def download_and_extract():
     cifar10_data.maybe_download_and_extract(FLAGS.data_dir, DATA_URL)
