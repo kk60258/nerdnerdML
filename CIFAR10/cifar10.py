@@ -24,7 +24,7 @@ def gcloud_auth():
 def gcloud_save():
     if FLAGS.use_google_cloud:
         import nerdcolab.gcloud as gcloud
-        gcloud.save_to_bucket(FLAGS.train_dir, FLAGS.gcloud_bucket_name,
+        gcloud.save_to_bucket(FLAGS.train_dir, FLAGS.gcloud_bucket_name, FLAGS.gcloud_project_name,
                     step=None,
                     save_events=False,
                     force=False)
