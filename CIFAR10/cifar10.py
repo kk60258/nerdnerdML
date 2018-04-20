@@ -16,7 +16,7 @@ def download_and_extract():
 
 
 def gcloud_auth():
-    if FLAGS.use_google_cloud:
+    if FLAGS.use_google_cloud and FLAGS.help_to_login_google_cloud:
         import nerdcolab.gcloud as gcloud
         gcloud.gcloud_auth(FLAGS.gcloud_project_name)
 
@@ -152,6 +152,9 @@ if __name__ == '__main__':
 
     parser.add_argument('--use_google_cloud', type=bool, default=False,
                         help='save to / load from google cloud storage')
+
+    parser.add_argument('--help_to_login_google_cloud', type=bool, default=False,
+                        help='help to log in google cloud storage')
 
     parser.add_argument('--gcloud_project_name', type=str, default='ai-model-test',
                         help='the project name in google cloud platform')
