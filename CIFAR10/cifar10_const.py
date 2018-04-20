@@ -1,18 +1,17 @@
 
-
-__all_ = ['IMAGE_SIZE',
-          'NUM_CLASSES',
-          'NUM_EXAMPLES_PER_EPOCH_FOR_TRAIN',
-          'NUM_EXAMPLES_PER_EPOCH_FOR_EVAL',
-          'DATA_URL',
-          'MOVING_AVERAGE_DECAY',
-          'NUM_EPOCHS_PER_DECAY',
-          'LEARNING_RATE_DECAY_FACTOR',
-          'INITIAL_LEARNING_RATE',
-          'batch_size',
-          'max_steps',
-          'log_device_placement',
-          'log_frequency']
+__all__ = ['IMAGE_SIZE',
+           'NUM_CLASSES',
+           'NUM_EXAMPLES_PER_EPOCH_FOR_TRAIN',
+           'NUM_EXAMPLES_PER_EPOCH_FOR_EVAL',
+           'DATA_URL',
+           'MOVING_AVERAGE_DECAY',
+           'NUM_EPOCHS_PER_DECAY',
+           'LEARNING_RATE_DECAY_FACTOR',
+           'INITIAL_LEARNING_RATE',
+           'batch_size',
+           'max_steps',
+           'log_device_placement',
+           'log_frequency']
 # Global constants describing the CIFAR-10 data set.
 # Process images of this size. Note that this differs from the original CIFAR
 # image size of 32 x 32. If one alters this number, then the entire model

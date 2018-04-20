@@ -12,42 +12,36 @@ def inference(images):
       images: Images returned from distorted_inputs() or inputs().
 
     Returns:
-      Logits.
+      model.
     """
 
     # layer1
-    with tf.variable_scope('layer1') as scope:
-        conv1 = tf.layers.conv2d(inputs=images, filters=64, kernel_size=[5, 5], strides=(1, 1), padding='same', activation=tf.nn.relu, kernel_regularizer=tf.contrib.layers.l2_regularizer(0.1), name='conv')
-        pool1 = tf.layers.max_pooling2d(conv1, pool_size=[3, 3], strides=[2,2], padding='same', name='pool')
-        batch1 = tf.layers.batch_normalization(inputs=pool1, name='batch')
-        layer1 = batch1
-
+    with tf.variable_scope('layer1'):
+        model = tf.layers.conv2d(inputs=images, filters=32, kernel_size=[5, 5], strides=(1, 1), padding='same', activation=tf.nn.relu, kernel_regularizer=tf.contrib.layers.l2_regularizer(0.1), name='conv')
+        model = tf.layers.max_pooling2d(model, pool_size=[3, 3], strides=[2,2], padding='same', name='pool')
+        model = tf.layers.batch_normalization(inputs=model, name='batch')
 
     # layer2
-    with tf.variable_scope('layer2') as scope:
-        conv2 = tf.layers.conv2d(inputs=layer1, filters=80, kernel_size=[5, 5], strides=(1, 1), padding='same', activation=tf.nn.relu, kernel_regularizer=tf.contrib.layers.l2_regularizer(0.1), name='conv')
-        pool2 = tf.layers.max_pooling2d(inputs=conv2, pool_size=[3, 3], strides=[2,2], padding='same', name='pool')
-        batch2 = tf.layers.batch_normalization(inputs=pool2, name='batch')
-        layer2 = batch2
+    with tf.variable_scope('layer2'):
+        model = tf.layers.conv2d(inputs=model, filters=32, kernel_size=[5, 5], strides=(1, 1), padding='same', activation=tf.nn.relu, kernel_regularizer=tf.contrib.layers.l2_regularizer(0.1), name='conv')
+        model = tf.layers.average_pooling2d(inputs=model, pool_size=[3, 3], strides=[2,2], padding='same', name='pool')
+        model = tf.layers.batch_normalization(inputs=model, name='batch')
 
     # layer3
-    with tf.variable_scope('layer3') as scope:
-        conv3 = tf.layers.conv2d(inputs=layer2, filters=128, kernel_size=[3, 3], strides=(1, 1), padding='same', activation=tf.nn.relu, kernel_regularizer=tf.contrib.layers.l2_regularizer(0.1), name='conv')
-        pool3 = tf.layers.max_pooling2d(inputs=conv3, pool_size=[2, 2], strides=[2,2], padding='same', name='pool')
-        batch3 = tf.layers.batch_normalization(inputs=pool3, name='batch')
-        layer3 = batch3
+    with tf.variable_scope('layer3'):
+        model = tf.layers.conv2d(inputs=model, filters=64, kernel_size=[5, 5], strides=(1, 1), padding='same', activation=tf.nn.relu, kernel_regularizer=tf.contrib.layers.l2_regularizer(0.1), name='conv')
+        model = tf.layers.average_pooling2d(inputs=model, pool_size=[3, 3], strides=[2,2], padding='same', name='pool')
+        model = tf.layers.batch_normalization(inputs=model, name='batch')
 
     # layer4
-    with tf.variable_scope('layer4') as scope:
-        flatten = tf.layers.flatten(inputs=layer3, name='flatten')
-        dense1 = tf.layers.dense(inputs=flatten, units=100, activation=tf.nn.relu, kernel_regularizer=tf.contrib.layers.l2_regularizer(0.1), name='dense1')
-        dense2 = tf.layers.dense(inputs=dense1, units=10, activation=tf.nn.relu, kernel_regularizer=tf.contrib.layers.l2_regularizer(0.1), name='dense2')
-        layer4 = dense2
+    with tf.variable_scope('layer4'):
+        model = tf.layers.flatten(inputs=model, name='flatten')
+        model = tf.layers.dense(inputs=model, units=64, activation=tf.nn.relu, kernel_regularizer=tf.contrib.layers.l2_regularizer(0.1), name='dense1')
+        model = tf.layers.dense(inputs=model, units=10, activation=tf.nn.relu, kernel_regularizer=tf.contrib.layers.l2_regularizer(0.1), name='dense2')
     # We don't apply softmax here because
     # and performs the softmax internally for efficiency.
 
-
-    return layer4
+    return model
 
 
 def loss(logits, labels):
@@ -76,7 +70,7 @@ def loss(logits, labels):
     # The total loss is defined as the cross entropy loss plus all of the weight
     # decay terms (L2 loss).
     l2_loss = tf.losses.get_regularization_loss()
-    return cross_entropy_mean + l2_loss, accuracy
+    return cross_entropy_mean, accuracy
 
 
 
@@ -106,7 +100,7 @@ def train(total_loss, global_step):
     # tf.summary.scalar('learning_rate', lr)
 
     # Generate moving averages of all losses and associated summaries.
-    optimizer = tf.train.AdamOptimizer(learning_rate=0.001)
+    optimizer = tf.train.AdamOptimizer(learning_rate=INITIAL_LEARNING_RATE)
     train_op = optimizer.minimize(total_loss, global_step=global_step)
 
     tf.summary.scalar('total loss', total_loss, collections=['train'])

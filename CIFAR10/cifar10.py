@@ -10,6 +10,9 @@ from cifar10_const import *
 
 logging.basicConfig(level=logging.DEBUG)
 
+max_steps = max_steps
+log_frequency = log_frequency
+
 
 def download_and_extract():
     cifar10_data.maybe_download_and_extract(FLAGS.data_dir, DATA_URL)
@@ -84,6 +87,7 @@ def train():
 
             for _ in range(max_steps):
                 train_images, train_labels = sess.run(next_batch)
+                #image_op = tf.summary.image('images', train_images)
                 # train_labels = tf.reshape(train_labels, shape=[128])
                 # train_labels = tf.one_hot(train_labels, depth=10).eval()
                 # print(train_labels.eval())
@@ -95,6 +99,7 @@ def train():
                 # logging.debug('step {}, train loss {}, accuracy {}'.format(step, loss_value, accuracy_value))
 
                 summary_writer.add_summary(summary, global_step=step)
+                #summary_writer.add_summary(image_summary, global_step=step)
 
                 if step % log_frequency == 0 or step + 1 == max_steps:
                     test_epoch_size = NUM_EXAMPLES_PER_EPOCH_FOR_EVAL
@@ -107,6 +112,7 @@ def train():
                         test_images, test_labels = sess.run(test_next_batch)
                         test_accuracy = sess.run(accuracy, feed_dict={images: test_images, labels: test_labels})
                         test_correct_count += (test_accuracy * test_images.shape[0])
+                        #logging.debug('test_step {}, test_correct_count {}, test_images.shape {}'.format(test_step, test_correct_count, test_images.shape[0]))
 
                     test_accuracy = float(test_correct_count) / NUM_EXAMPLES_PER_EPOCH_FOR_EVAL
 
@@ -123,7 +129,6 @@ def train():
                         gcloud_save()
 
                 summary_writer.flush()
-
 
 
 def main(argv=None):  # pylint: disable=unused-argument
