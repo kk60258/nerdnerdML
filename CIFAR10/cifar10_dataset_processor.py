@@ -74,6 +74,7 @@ def __get_dataset(filenames):
         image = tf.reshape(image, [depth, height, width])
         # Convert from [depth, height, width] to [height, width, depth].
         image = tf.transpose(image, [1, 2, 0])
+        image = tf.image.per_image_standardization(image)
 
         return image, label
 
