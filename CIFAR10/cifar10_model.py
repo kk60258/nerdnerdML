@@ -70,7 +70,7 @@ def loss(logits, labels):
     # The total loss is defined as the cross entropy loss plus all of the weight
     # decay terms (L2 loss).
     l2_loss = tf.losses.get_regularization_loss()
-    return cross_entropy_mean, accuracy
+    return cross_entropy_mean + l2_loss, accuracy
 
 
 
