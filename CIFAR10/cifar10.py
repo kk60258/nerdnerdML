@@ -67,7 +67,7 @@ def train():
 
         # Build a Graph that trains the model with one batch of examples and
         # updates the model parameters.
-        train_op = cifar10_model.train(loss, global_step)
+        train_op = cifar10_model.train(loss, global_step, FLAGS.learning_rate)
 
         merged = tf.summary.merge_all(key='train')
         merged_test = tf.summary.merge_all(key='test')
@@ -75,7 +75,11 @@ def train():
         with tf.Session() as sess:
             sess.run(tf.global_variables_initializer())
             best_test_accuracy = 0
-            summary_writer = tf.summary.FileWriter(FLAGS.train_dir, sess.graph)
+
+            if not os.path.isdir(FLAGS.summary_dir):
+                os.makedirs(FLAGS.summary_dir)
+
+            summary_writer = tf.summary.FileWriter(FLAGS.summary_dir, sess.graph)
 
             #restore path not empty
             if os.path.exists(FLAGS.restore_dir) and not os.listdir(FLAGS.restore_dir):
@@ -150,6 +154,9 @@ if __name__ == '__main__':
     parser.add_argument('--restore_dir', type=str, default='/tmp/cifar10_restore',
                         help='Path to the CIFAR-10 restore result directory.')
 
+    parser.add_argument('--summary_dir', type=str, default='/tmp/cifar10_summary',
+                        help='Path to the CIFAR-10 summary result directory.')
+
     parser.add_argument('--use_google_cloud', type=bool, default=False,
                         help='save to / load from google cloud storage')
 
@@ -165,10 +172,13 @@ if __name__ == '__main__':
     parser.add_argument('--zip_file_name', type=str, default='cifar10.zip',
                         help='the zip file name in bucket of google cloud storage to restore from')
 
-    parser.add_argument('--max_steps', type=int, default='100',
+    parser.add_argument('--max_steps', type=int, default=100,
                         help='')
 
-    parser.add_argument('--log_frequency', type=int, default='2',
+    parser.add_argument('--log_frequency', type=int, default=2,
+                        help='')
+
+    parser.add_argument('--learning_rate', type=float, default=0.001,
                         help='')
 
     FLAGS = parser.parse_args()

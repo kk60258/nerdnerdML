@@ -7,7 +7,6 @@ __all__ = ['IMAGE_SIZE',
            'MOVING_AVERAGE_DECAY',
            'NUM_EPOCHS_PER_DECAY',
            'LEARNING_RATE_DECAY_FACTOR',
-           'INITIAL_LEARNING_RATE',
            'batch_size',
            'max_steps',
            'log_device_placement',
@@ -29,7 +28,7 @@ DATA_URL = 'http://www.cs.toronto.edu/~kriz/cifar-10-binary.tar.gz'
 MOVING_AVERAGE_DECAY = 0.9999     # The decay to use for the moving average.
 NUM_EPOCHS_PER_DECAY = 350.0      # Epochs after which learning rate decays.
 LEARNING_RATE_DECAY_FACTOR = 0.1  # Learning rate decay factor.
-INITIAL_LEARNING_RATE = 0.1       # Initial learning rate.
+#INITIAL_LEARNING_RATE = 0.1       # Initial learning rate.
 
 batch_size = 128
 max_steps = 100

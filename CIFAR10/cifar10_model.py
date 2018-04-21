@@ -74,7 +74,7 @@ def loss(logits, labels):
 
 
 
-def train(total_loss, global_step):
+def train(total_loss, global_step, learning_rate):
     """Train CIFAR-10 model.
 
     Create an optimizer and apply to all trainable variables. Add moving
@@ -100,7 +100,7 @@ def train(total_loss, global_step):
     # tf.summary.scalar('learning_rate', lr)
 
     # Generate moving averages of all losses and associated summaries.
-    optimizer = tf.train.AdamOptimizer(learning_rate=INITIAL_LEARNING_RATE)
+    optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate)
     train_op = optimizer.minimize(total_loss, global_step=global_step)
 
     tf.summary.scalar('total loss', total_loss, collections=['train'])
