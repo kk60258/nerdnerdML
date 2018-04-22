@@ -88,7 +88,7 @@ def train():
             #restore path not empty
             if os.path.exists(os.path.dirname(FLAGS.restore_model_prefix)):
                 #gcloud_load()
-                tf.train.Saver().restore(sess, FLAG.restore_model_prefix)
+                tf.train.Saver().restore(sess, FLAGS.restore_model_prefix)
 
             for _ in range(max_steps):
                 train_images, train_labels = sess.run(next_batch)
