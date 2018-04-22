@@ -28,7 +28,7 @@ def gcloud_save():
         gcloud.save_to_bucket(FLAGS.train_dir, FLAGS.gcloud_bucket_name, FLAGS.gcloud_project_name,
                     step=None,
                     save_events=False,
-                    force=False,
+                    force=FLAGS.overwrite_google_cloud_if_filename_conflicts,
                     save_all_dir=False)
 
 
@@ -166,6 +166,9 @@ if __name__ == '__main__':
 
     parser.add_argument('--help_to_login_google_cloud', type=bool, default=False,
                         help='help to log in google cloud storage')
+
+    parser.add_argument('--overwrite_google_cloud_if_filename_conflicts', type=bool, default=False,
+                        help='overwrite_google_cloud_if_filename_conflicts')
 
     parser.add_argument('--gcloud_project_name', type=str, default='ai-model-test',
                         help='the project name in google cloud platform')
