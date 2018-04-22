@@ -87,7 +87,7 @@ def train():
 
             #restore path not empty
             if os.path.exists(FLAGS.restore_dir) and not os.listdir(FLAGS.restore_dir):
-                gcloud_load()
+                #gcloud_load()
                 tf.Saver().restore(sess, FLAGS.restore_dir)
 
             for _ in range(max_steps):
