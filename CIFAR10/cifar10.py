@@ -72,6 +72,8 @@ def train():
         merged = tf.summary.merge_all(key='train')
         merged_test = tf.summary.merge_all(key='test')
 
+        save_result_filename = os.path.join(FLAGS.train_dir, 'model')
+
         with tf.Session() as sess:
             sess.run(tf.global_variables_initializer())
             best_test_accuracy = 0
@@ -126,7 +128,7 @@ def train():
                     if best_test_accuracy < test_accuracy:
                         best_test_accuracy = test_accuracy
                         best_test_step = step
-                        tf.train.Saver().save(sess, save_path=FLAGS.train_dir, global_step=step)
+                        tf.train.Saver().save(sess, save_path=save_result_filename, global_step=step)
                         gcloud_save()
 
                 summary_writer.flush()
