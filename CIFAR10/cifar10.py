@@ -86,9 +86,9 @@ def train():
             summary_writer = tf.summary.FileWriter(FLAGS.summary_dir, sess.graph)
 
             #restore path not empty
-            if os.path.exists(FLAGS.restore_dir) and not os.listdir(FLAGS.restore_dir):
+            if os.path.exists(os.path.dirname(FLAGS.restore_model_prefix)):
                 #gcloud_load()
-                tf.Saver().restore(sess, FLAGS.restore_dir)
+                tf.train.Saver().restore(sess, FLAG.restore_model_prefix)
 
             for _ in range(max_steps):
                 train_images, train_labels = sess.run(next_batch)
@@ -155,8 +155,8 @@ if __name__ == '__main__':
     parser.add_argument('--train_dir', type=str, default='/tmp/cifar10_train',
                         help='Path to the CIFAR-10 train result directory.')
 
-    parser.add_argument('--restore_dir', type=str, default='/tmp/cifar10_restore',
-                        help='Path to the CIFAR-10 restore result directory.')
+    parser.add_argument('--restore_model_prefix', type=str, default='/tmp/cifar10_restore/model-5',
+                        help='Path to the CIFAR-10 restore ckpt file name prefix.')
 
     parser.add_argument('--summary_dir', type=str, default='/tmp/cifar10_summary',
                         help='Path to the CIFAR-10 summary result directory.')
