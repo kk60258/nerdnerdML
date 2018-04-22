@@ -10,6 +10,7 @@ from cifar10_const import *
 
 logging.basicConfig(level=logging.DEBUG)
 
+tf.train.latest_checkpoint
 
 def download_and_extract():
     cifar10_data.maybe_download_and_extract(FLAGS.data_dir, DATA_URL)
@@ -27,7 +28,8 @@ def gcloud_save():
         gcloud.save_to_bucket(FLAGS.train_dir, FLAGS.gcloud_bucket_name, FLAGS.gcloud_project_name,
                     step=None,
                     save_events=False,
-                    force=False)
+                    force=False,
+                    save_all_dir=False)
 
 
 def gcloud_load():
@@ -174,10 +176,10 @@ if __name__ == '__main__':
     parser.add_argument('--zip_file_name', type=str, default='cifar10.zip',
                         help='the zip file name in bucket of google cloud storage to restore from')
 
-    parser.add_argument('--max_steps', type=int, default=100,
+    parser.add_argument('--max_steps', type=int, default=3,
                         help='')
 
-    parser.add_argument('--log_frequency', type=int, default=2,
+    parser.add_argument('--log_frequency', type=int, default=1,
                         help='')
 
     parser.add_argument('--learning_rate', type=float, default=0.001,
