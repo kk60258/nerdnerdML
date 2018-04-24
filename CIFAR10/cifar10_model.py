@@ -18,20 +18,20 @@ def inference(images):
     # layer1
     with tf.variable_scope('layer1'):
         model = tf.layers.conv2d(inputs=images, filters=32, kernel_size=[5, 5], strides=(1, 1), padding='same', activation=tf.nn.relu, kernel_regularizer=tf.contrib.layers.l2_regularizer(0.1), name='conv')
-        model = tf.layers.max_pooling2d(model, pool_size=[3, 3], strides=[2,2], padding='same', name='pool')
-        model = tf.layers.batch_normalization(inputs=model, name='batch')
+        model = tf.layers.max_pooling2d(model, pool_size=[3, 3], strides=[2, 2], padding='same', name='pool')
+        # model = tf.layers.batch_normalization(inputs=model, name='batch')
 
     # layer2
     with tf.variable_scope('layer2'):
         model = tf.layers.conv2d(inputs=model, filters=32, kernel_size=[5, 5], strides=(1, 1), padding='same', activation=tf.nn.relu, kernel_regularizer=tf.contrib.layers.l2_regularizer(0.1), name='conv')
-        model = tf.layers.average_pooling2d(inputs=model, pool_size=[3, 3], strides=[2,2], padding='same', name='pool')
-        model = tf.layers.batch_normalization(inputs=model, name='batch')
+        model = tf.layers.average_pooling2d(inputs=model, pool_size=[3, 3], strides=[2, 2], padding='same', name='pool')
+        # model = tf.layers.batch_normalization(inputs=model, name='batch')
 
     # layer3
     with tf.variable_scope('layer3'):
         model = tf.layers.conv2d(inputs=model, filters=64, kernel_size=[5, 5], strides=(1, 1), padding='same', activation=tf.nn.relu, kernel_regularizer=tf.contrib.layers.l2_regularizer(0.1), name='conv')
-        model = tf.layers.average_pooling2d(inputs=model, pool_size=[3, 3], strides=[2,2], padding='same', name='pool')
-        model = tf.layers.batch_normalization(inputs=model, name='batch')
+        model = tf.layers.average_pooling2d(inputs=model, pool_size=[3, 3], strides=[2, 2], padding='same', name='pool')
+        # model = tf.layers.batch_normalization(inputs=model, name='batch')
 
     # layer4
     with tf.variable_scope('layer4'):
