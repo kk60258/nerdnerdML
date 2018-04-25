@@ -47,4 +47,15 @@ Machine learning練習用
      
      2. upload jupyter notebook
     
-
+     3. import data using dataset api and binary format of CIFAR-10: 
+     
+        - CIFAR-10 data
+        
+        https://www.cs.toronto.edu/~kriz/cifar.html
+        
+        - tf.data.FixedLengthRecordDataset
+        
+        https://www.tensorflow.org/programmers_guide/datasets
+        
+        https://www.tensorflow.org/api_docs/python/tf/data/Dataset
+        
