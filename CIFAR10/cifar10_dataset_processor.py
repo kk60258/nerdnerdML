@@ -74,6 +74,8 @@ def __get_dataset(filenames, augmentation=False):
         image = tf.reshape(image, [depth, height, width])
         # Convert from [depth, height, width] to [height, width, depth].
         image = tf.transpose(image, [1, 2, 0])
+        image = tf.cast(image, tf.float32)
+
         if augmentation:
 
             # Image processing for training the network. Note the many random
