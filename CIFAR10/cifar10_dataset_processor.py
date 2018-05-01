@@ -19,7 +19,7 @@ def distorted_inputs(data_dir):
     filenames = [os.path.join(data_dir, 'data_batch_%d.bin' % i)
                  for i in range(1, 6)]
 
-    return __get_dataset(filenames)
+    return __get_dataset(filenames, augmentation=True)
 
 def distorted_test_inputs(data_dir):
     """Construct distorted input for CIFAR training using the Reader ops.
@@ -37,7 +37,7 @@ def distorted_test_inputs(data_dir):
     return __get_dataset(filenames)
 
 
-def __get_dataset(filenames):
+def __get_dataset(filenames, augmentation=False):
     for f in filenames:
         if not tf.gfile.Exists(f):
             raise ValueError('Failed to find file: ' + f)
@@ -74,6 +74,27 @@ def __get_dataset(filenames):
         image = tf.reshape(image, [depth, height, width])
         # Convert from [depth, height, width] to [height, width, depth].
         image = tf.transpose(image, [1, 2, 0])
+        if augmentation:
+
+            # Image processing for training the network. Note the many random
+            # distortions applied to the image.
+
+            # Randomly crop a [height, width] section of the image.
+            distorted_image = tf.random_crop(image, [height, width, 3])
+
+            # Randomly flip the image horizontally.
+            distorted_image = tf.image.random_flip_left_right(distorted_image)
+
+            # Because these operations are not commutative, consider randomizing
+            # the order their operation.
+            # NOTE: since per_image_standardization zeros the mean and makes
+            # the stddev unit, this likely has no effect see tensorflow#1458.
+            distorted_image = tf.image.random_brightness(distorted_image,
+                                                         max_delta=63)
+            distorted_image = tf.image.random_contrast(distorted_image,
+                                                       lower=0.2, upper=1.8)
+            image = distorted_image
+
         image = tf.image.per_image_standardization(image)
 
         return image, label
